@@ -140,7 +140,6 @@
       container.css({'pointer-events': 'auto'});
 
       var target = angular.element(document.querySelector(options.target));
-
       if ( ! target || ! target.length) {
         throw 'Target for toasts doesn\'t exist';
       }
@@ -177,12 +176,16 @@
           newToast.isOpened = true;
           if (options.newestOnTop) {
             $animate.enter(newToast.el, container).then(function() {
-              newToast.scope.init();
+              if (newToast.scope.hasOwnProperty('init')) {
+                newToast.scope.init();
+              }
             });
           } else {
             var sibling = container[0].lastChild ? angular.element(container[0].lastChild) : null;
             $animate.enter(newToast.el, container, sibling).then(function() {
-              newToast.scope.init();
+              if (newToast.scope.hasOwnProperty('init')) {
+                newToast.scope.init();
+              }
             });
           }
         });
